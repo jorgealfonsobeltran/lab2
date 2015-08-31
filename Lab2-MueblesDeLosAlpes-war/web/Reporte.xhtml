@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Document   : index
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/main-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+                
+    <ui:param name="titulo" value="Control de Acceso" />
+    <ui:define name="body"> 
+        <h:form>
+            <!-- Formulario de autenticación  -->          
+            <h:panelGroup>
+                <f:facet name="header" >
+                    Reportes
+                </f:facet>
+                <h:panelGrid width="600px"  columns="5" >  
+                    <p:outputLabel for="buttonFechaInicial" value="Fecha Inicial:" />
+                        <p:calendar id="buttonFechaInicial" value="#{reporteBean.fechaInicial}" showOn="button" />
+                        <p:outputLabel for="buttonFechaFinal" value="Fecha Final:" />
+                        <p:calendar id="buttonFechaFinal" value="#{reporteBean.fechaFinal}" showOn="button" />
+                        <p:commandButton  value="Consultar" icon="ui-icon-star" action="#{reporteBean.consultarReporte()}"  >
+                            
+                </p:commandButton>
+                </h:panelGrid>
+                
+                <h:panelGrid width="1000px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">  
+                    <p:chart type="line" model="#{reporteBean.dateModel}" style="height:400px;"/>
+                    
+                    <!--<p:chart type="bar" model="#{reporteBean.barModel}" style="height:300px"/>-->
+ 
+                    <p:chart type="bar" model="#{reporteBean.horizontalBarModel}" style="height:300px"/>
+                </h:panelGrid>
+            </h:panelGroup>
+            <p:button outcome="catalogo" value="Catálogo" icon="ui-icon-star">
+                    
+                </p:button>
+        </h:form>
+    </ui:define>
+</ui:composition>
