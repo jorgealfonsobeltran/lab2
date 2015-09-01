@@ -33,8 +33,5 @@ public class Reporte {
     public Reporte(){
         this.informeDiarios = new ArrayList<>();
     }
-    
-    
-    
 }
 

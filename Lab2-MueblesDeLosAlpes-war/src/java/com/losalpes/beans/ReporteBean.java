@@ -7,6 +7,8 @@ package com.losalpes.beans;
 
 import com.losalpes.bos.InformeDiario;
 import com.losalpes.bos.Reporte;
+import com.losalpes.bos.TipoUsuario;
+import com.losalpes.bos.Usuario;
 import com.losalpes.servicios.IServicioReporte;
 import com.losalpes.servicios.ServicioReporte;
 import javax.annotation.PostConstruct;
@@ -14,9 +16,12 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.faces.model.SelectItem;
  
 import org.primefaces.model.chart.*;
 
@@ -29,7 +34,7 @@ import org.primefaces.model.chart.*;
 @SessionScoped
 public class ReporteBean implements Serializable{
     
-    private BarChartModel barModel;
+    private LineChartModel dateClienteModel;
     
     private HorizontalBarChartModel horizontalBarModel;
     
@@ -42,18 +47,30 @@ public class ReporteBean implements Serializable{
     private Date fechaInicial;
     
     private Date fechaFinal;
+    
+    private Date fechaInicialCliente;
+    
+    private Date fechaFinalCliente;
+    
+    private Usuario usuario;
+    
+    private List<Usuario> usuarios;
 
     private SimpleDateFormat sdf;
     
+    private List<SelectItem> clientesItems;
     @PostConstruct
     public void init() {
+        
         servicioReporte = new ServicioReporte();
         sdf = new SimpleDateFormat("yyyy-MM-dd");
         
+        usuarios.add(new Usuario("Angela Suarez", "122345", TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario("Jorge Beltran", "122345", TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario("Camilo Marroquin", "122345", TipoUsuario.CLIENTE));
         
         fechaFinal = fechaFinal == null? new Date(): fechaFinal;
        
-        
         Calendar fechaF = Calendar.getInstance();
         Calendar fechaI = Calendar.getInstance();
         fechaF.setTime(fechaFinal);
@@ -64,7 +81,7 @@ public class ReporteBean implements Serializable{
         
         reporte = servicioReporte.getReporte(fechaI, fechaF);
         
-        createBarModels();
+        createModels();
     }
     
     public Date getFechaInicial() {
@@ -82,9 +99,29 @@ public class ReporteBean implements Serializable{
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
- 
-    public BarChartModel getBarModel() {
-        return barModel;
+    
+    public Date getFechaInicialCliente() {
+        return fechaInicialCliente;
+    }
+
+    public void setFechaInicialCliente(Date fechaInicialCliente) {
+        this.fechaInicialCliente = fechaInicialCliente;
+    }
+
+    public Date getFechaFinalCliente() {
+        return fechaFinalCliente;
+    }
+
+    public void setFechaFinalCliente(Date fechaFinalCliente) {
+        this.fechaFinalCliente = fechaFinalCliente;
+    }
+
+    public List<Usuario> getUsuarios(){
+        return usuarios;
+    }
+
+    public void setClientes(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
      
     public HorizontalBarChartModel getHorizontalBarModel () {
@@ -93,6 +130,10 @@ public class ReporteBean implements Serializable{
     
     public LineChartModel getDateModel() {
         return dateModel;
+    }
+    
+    public LineChartModel getDateClienteModel() {
+        return dateClienteModel;
     }
  
     private BarChartModel initBarModel()  {
@@ -115,9 +156,9 @@ public class ReporteBean implements Serializable{
             return model;
     }
      
-    private void createBarModels() {
-        createBarModel();
-        createHorizontalBarModel();
+    private void createModels() {
+        createDateClienteModel();
+        createHorizontalVentasModel();
         createDateModel();
     }
      
@@ -141,34 +182,45 @@ public class ReporteBean implements Serializable{
         dateModel.setZoom(true);
         dateModel.setAnimate(true);
         dateModel.getAxis(AxisType.Y).setLabel("Muebles");
+        dateModel.getAxis(AxisType.Y).setMin(0);
         DateAxis axis = new DateAxis("Fechas");
         dateModel.setLegendPosition("e");
         dateModel.setShowPointLabels(true);
         axis.setTickAngle(-50);
-//        axis.setMax("2014-02-01");
-//        axis.setTickFormat("%b %#d, %y");
          
         dateModel.getAxes().put(AxisType.X, axis);
     }
     
-    private void createBarModel() {
-        barModel = initBarModel();
-         
-        barModel.setTitle("Reporte numero de muebles");
-        barModel.setLegendPosition("ne");
-         
-        DateAxis axis = new DateAxis("Fecha");
-        axis.setTickAngle(-50);
-//        axis.setMax("2014-02-01");
-//        axis.setTickFormat("%b %#d, %y");
-         
-        Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Muebles");
+    private void createDateClienteModel() {
+        dateClienteModel = new LineChartModel();
+        LineChartSeries mueblesI = new LineChartSeries();
+        LineChartSeries mueblesE = new LineChartSeries();
         
-        barModel.getAxes().put(AxisType.X, axis);
+        mueblesI.setLabel("Muebles Interior");
+        mueblesE.setLabel("Muebles Exterior");
+        
+        for (InformeDiario item : reporte.getInformeDiarios()) {
+            mueblesI.set(sdf.format(item.getFecha().getTime()), item.getMueblesInterior());
+            mueblesE.set(sdf.format(item.getFecha().getTime()), item.getMueblesExterior());
+        }
+ 
+        dateClienteModel.addSeries(mueblesI);
+        dateClienteModel.addSeries(mueblesE);
+         
+        dateClienteModel.setTitle("Reporte Diario");
+        dateClienteModel.setZoom(true);
+        dateClienteModel.setAnimate(true);
+        dateClienteModel.getAxis(AxisType.Y).setLabel("Muebles");
+        dateClienteModel.getAxis(AxisType.Y).setMin(0);
+        DateAxis axis = new DateAxis("Fechas");
+        dateClienteModel.setLegendPosition("e");
+        dateClienteModel.setShowPointLabels(true);
+        axis.setTickAngle(-50);
+         
+        dateClienteModel.getAxes().put(AxisType.X, axis);
     }
      
-    private void createHorizontalBarModel() {
+    private void createHorizontalVentasModel() {
         horizontalBarModel = new HorizontalBarChartModel();
  
         ChartSeries boys = new ChartSeries();
@@ -202,12 +254,22 @@ public class ReporteBean implements Serializable{
         Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
         yAxis.setLabel("Gender");    
     }
+    
     public void consultarReporte(){
         Calendar fechaF = Calendar.getInstance();
         Calendar fechaI = Calendar.getInstance();
         fechaF.setTime(fechaFinal);
         fechaI.setTime(fechaInicial);
         reporte= servicioReporte.getReporte(fechaI, fechaF);
-        createBarModels();
+        createModels();
+    }
+    
+    public void consultarReporteCliente(){
+        Calendar fechaF = Calendar.getInstance();
+        Calendar fechaI = Calendar.getInstance();
+        fechaF.setTime(fechaFinalCliente);
+        fechaI.setTime(fechaInicialCliente);
+        reporte= servicioReporte.getReporteCliente("", fechaI, fechaF);
+        createModels();
     }
 }

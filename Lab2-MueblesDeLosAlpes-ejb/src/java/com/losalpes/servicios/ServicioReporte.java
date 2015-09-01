@@ -32,13 +32,40 @@ public class ServicioReporte implements IServicioReporte{
         for (int i = 0; i <= diferenciaDias; i++) {
             Calendar fecha =  Calendar.getInstance();
             fecha.setTime(fechaInicio.getTime());
-        
+            int random1 = (int)(Math.random() * 10000);
+            int random2 = (int)(Math.random() * 10000);
             fecha.add(Calendar.DAY_OF_YEAR, i);
-            InformeDiario informeDiario = new InformeDiario(fecha, 1+i, 1+i, i*1200, i*1300);
-            informeDiario.setFecha(fecha);
-            //System.out.println("Antes de cargar"+ fecha.getTime().toString());            
+            InformeDiario informeDiario = new InformeDiario(fecha, random1, random2, i*1200, i*1300);
+            informeDiario.setFecha(fecha);    
             lista.add(informeDiario);       
-        }      
+        }
+        
+        reporte.setInformeDiarios(lista);
+        
+        return reporte;
+    }
+
+    @Override
+    public Reporte getReporteCliente(String identificacion, Calendar fechaInicio, Calendar fechaFin) {
+        Reporte reporte = new Reporte();
+        
+        long diferenciaTicks = fechaFin.getTimeInMillis() - fechaInicio.getTimeInMillis();
+        long diferenciaDias = diferenciaTicks / (1000 * 60 * 60 * 24);
+        
+                
+        List<InformeDiario> lista = new ArrayList<>();
+        
+        for (int i = 0; i <= diferenciaDias; i++) {
+            Calendar fecha =  Calendar.getInstance();
+            fecha.setTime(fechaInicio.getTime());
+            int random1 = (int)(Math.random() * 10000);
+            int random2 = (int)(Math.random() * 10000);
+            fecha.add(Calendar.DAY_OF_YEAR, i);
+            InformeDiario informeDiario = new InformeDiario(fecha, random1, random2, i*1200, i*1300);
+            informeDiario.setFecha(fecha);    
+            lista.add(informeDiario);       
+        }
+        
         reporte.setInformeDiarios(lista);
         
         return reporte;

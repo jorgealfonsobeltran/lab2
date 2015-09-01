@@ -26,4 +26,13 @@ public interface IServicioReporte {
      */
     public Reporte getReporte(Calendar fechaInicio, Calendar fechaFin);
     
+    /**
+     * 
+     * @param identificacion
+     * @param fechaInicio
+     * @param fechaFin
+     * @return 
+     */
+    public Reporte getReporteCliente(String identificacion, Calendar fechaInicio, Calendar fechaFin);
+    
 }
