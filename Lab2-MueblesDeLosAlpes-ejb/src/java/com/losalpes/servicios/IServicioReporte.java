@@ -6,7 +6,9 @@
 package com.losalpes.servicios;
 
 import com.losalpes.bos.Reporte;
+import com.losalpes.bos.ReporteMueble;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -34,5 +36,12 @@ public interface IServicioReporte {
      * @return 
      */
     public Reporte getReporteCliente(String identificacion, Calendar fechaInicio, Calendar fechaFin);
+    
+    
+    /**
+     * 
+     * @return 
+     */
+    public List<ReporteMueble> getReporteMuebles();
     
 }

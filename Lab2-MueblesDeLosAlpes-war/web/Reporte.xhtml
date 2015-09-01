@@ -35,18 +35,11 @@
                     </p:tab>
                     <p:tab title="Historico de Compras de Cliente">
                         <h:panelGrid width="800px"  columns="6" >  
-                            <p:selectOneMenu id="advanced" value="#{reporteBean.identificacion}" panelStyle="width:180px"
-                                            effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{reporteBean.clientes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{clientes}" />
-
-                               <p:column style="width:10%">
-                                   <h:outputText styleClass="ui-theme ui-theme-#{t.name}" />
-                               </p:column>
-
-                               <p:column>
-                                   <h:outputText value="#{t.displayName}" />
-                               </p:column>
-                           </p:selectOneMenu>
+                            
+                            <p:selectOneMenu value="#{reporteBean.usuario.nombre}">
+                                <f:selectItems  value="#{reporteBean.items}"/>
+                            </p:selectOneMenu>
+                           
                             
                             <p:outputLabel for="buttonFechaInicialCliente" value="Fecha Inicial:" />
                             <p:calendar id="buttonFechaInicialCliente" value="#{reporteBean.fechaInicialCliente}" showOn="button" />

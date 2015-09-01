@@ -5,7 +5,6 @@
  */
 package com.losalpes.bos;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,16 @@ import java.util.List;
 public class Reporte {
     
     private List<InformeDiario> informeDiarios;
+    
+    private List<ReporteMueble> informeMuebles;
+
+    public List<ReporteMueble> getInformeMuebles() {
+        return informeMuebles;
+    }
+
+    public void setInformeMuebles(List<ReporteMueble> informeMuebles) {
+        this.informeMuebles = informeMuebles;
+    }
 
     public List<InformeDiario> getInformeDiarios() {
         return informeDiarios;
@@ -33,5 +42,7 @@ public class Reporte {
     public Reporte(){
         this.informeDiarios = new ArrayList<>();
     }
+    
+    
 }
 

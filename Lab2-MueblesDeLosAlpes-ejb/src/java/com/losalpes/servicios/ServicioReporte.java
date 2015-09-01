@@ -7,6 +7,7 @@ package com.losalpes.servicios;
 
 import com.losalpes.bos.InformeDiario;
 import com.losalpes.bos.Reporte;
+import com.losalpes.bos.ReporteMueble;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -42,6 +43,8 @@ public class ServicioReporte implements IServicioReporte{
         
         reporte.setInformeDiarios(lista);
         
+        reporte.setInformeMuebles(getReporteMuebles());
+        
         return reporte;
     }
 
@@ -68,6 +71,25 @@ public class ServicioReporte implements IServicioReporte{
         
         reporte.setInformeDiarios(lista);
         
+        reporte.setInformeMuebles(getReporteMuebles());
+        
         return reporte;
+    }
+
+    @Override
+    public List<ReporteMueble> getReporteMuebles() {
+        
+        List<ReporteMueble> muebles = new ArrayList<>();
+        
+        //Agrega los muebles del sistema
+        muebles.add(new ReporteMueble("RF1",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF2",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF3",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF4",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF5",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF6",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF7",(int)(Math.random() * 10000)));
+        muebles.add(new ReporteMueble("RF8",(int)(Math.random() * 10000)));        
+        return muebles;
     }
 }
