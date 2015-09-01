@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Document   : index
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template-cliente.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:param name="titulo" value="Los muebles a tu gusto!" />
+    <ui:define name="body">
+        <h:form id="forma">
+            <f:facet name="header" >
+                Ahora éstos son tus muebles disponibles!
+            </f:facet>
+            <!-- Lista de muebles  -->
+            <BR/>
+                    <BR/>
+                    <BR/> 
+            <h:panelGroup id="panelTITULO">
+             <table align="left">
+                        <tr>
+                            <td>
+                                <p:outputLabel rendered="#{!catalogoCliente.mostrarCompra}"  id="tituloDisponible"  styleClass="titulo" value="!!!Selecciona los muebles que desees agregar a tu compra!!!   "/>                        
+                                <p:outputLabel rendered="#{catalogoCliente.mostrarCompra}" id="tituloCompra" styleClass="titulo" value="Muebles Asociados a tu compra"/>
+                            </td>
+                        </tr>
+                    </table>    
+                </h:panelGroup>
+            <h:panelGroup id="panelDisponibles">
+                <h:panelGroup  rendered="#{!catalogoCliente.mostrarCompra}">
+                                                
+                    <BR/>
+                    <BR/>
+                    <BR/>                
+                    <center>
+                        <h:panelGrid  columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                            <p:dataTable id="catalogoTable" var="m"  widgetVar="mueblesTable" value="#{catalogoCliente.mueblesDisponibles}">
+                                <p:column headerText="Referencia"  >
+                                    <h:outputText value="#{m.referencia}" />
+                                </p:column>
+                                <p:column  headerText="Nombre"  >
+                                    <h:outputText value="#{m.nombre}" />
+                                </p:column>
+                                <p:column  headerText="Tipo"  >
+                                    <h:outputText value="#{m.tipo}" />
+                                </p:column>
+                                <p:column  headerText="Descripción"  >
+                                    <h:outputText value="#{m.descripcion}" />
+                                </p:column>
+                                <p:column  headerText="Acción"  >
+
+                                    <p:commandButton value="Agregar" icon="ui-icon-cart" update="forma:cantidadMueble">
+                                        <f:setPropertyActionListener target="#{catalogoCliente.muebleCompra}" value="#{m}">
+
+                                        </f:setPropertyActionListener>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>                    
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <BR/>
+                            <BR/>
+                            <p:outputLabel id="cantidadMueble" value="Tienes #{catalogoCliente.mueblesComprados.size()} en tu compra"/>
+                            <BR/>
+                            <BR/>
+                        </h:panelGrid>
+                    </center>
+                </h:panelGroup>
+            </h:panelGroup>
+            <BR/>
+                    <BR/>
+                    <BR/>
+            <h:panelGroup id="panelComprados">
+                <h:panelGroup  rendered="#{catalogoCliente.mostrarCompra}">
+
+                    <h:panelGroup>
+                        <f:facet name="header" >
+                            Muebles en tu compra
+                        </f:facet>               
+                        
+                        <h:panelGrid  columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                            <p:dataTable var="c"
+                                         widgetVar="mueblesTableCompra" value="#{catalogoCliente.mueblesComprados}">
+                                <p:column  headerText="Referencia"  >
+                                    <h:outputText value="#{c.referencia}" />
+                                </p:column>
+                                <p:column  headerText="Nombre"  >
+                                    <h:outputText value="#{c.nombre}" />
+                                </p:column>
+                                <p:column  headerText="Tipo"  >
+                                    <h:outputText value="#{c.tipo}" />
+                                </p:column>
+                                <p:column  headerText="Descripción"  >
+                                    <h:outputText value="#{c.descripcion}" />
+                                </p:column>
+                                <p:column  headerText="Acción"  >
+                                    <p:commandButton value="Eliminar" icon="ui-icon-cart" update="forma:cantidadMuebleCarro, forma:panelComprados">
+                                        <f:setPropertyActionListener target="#{catalogoCliente.muebleEliminado}" value="#{c}">
+                                        </f:setPropertyActionListener>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>                    
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <p:outputLabel id="cantidadMuebleCarro" value="Tienes #{catalogoCliente.mueblesComprados.size()} muebles en tu compra"/>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </h:panelGroup>
+
+
+            <p:stack id="stack" icon="../resources/img/template/descarga.png" expanded="true">                
+                <p:menuitem rendered="#{!catalogoCliente.mostrarCompra}"  update="panelDisponibles,panelComprados, stack,panelTITULO" action="#{catalogoCliente.mostrarCompraCarro}" id="urlCompra" value="Compra" icon="../resources/img/template/carrito.png" />               
+                <p:menuitem rendered="#{catalogoCliente.mostrarCompra}" update="panelDisponibles,panelComprados, stack,panelTITULO" action="#{catalogoCliente.mostrarMueblesDisponibles}" value="Catálogo" icon="../resources/img/template/mueble.png"/>
+            </p:stack>
+        </h:form>
+    </ui:define>
+</ui:composition>

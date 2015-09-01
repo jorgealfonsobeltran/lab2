@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+    Document   : administracionCliente
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    template="/main-template.xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="titulo" value="Lista de clientes" />
+    <ui:define name="body">
+        <h:form id="formularioUsuario">
+
+            <br/>
+            <br/>
+            <br/>
+
+            <!-- Panel para agregar un nuevo mueble -->
+            <h:panelGroup id="panelUsuario">
+                <h:outputLabel style="font-weight: bold; font-size: 14px"    value="DATOS DEL CLIENTE"/>
+                <br/> <br/> 
+                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                    <p:outputLabel for="TxtCedula"
+                                   value="Cedula"/>
+                    <p:inputText id="TxtCedula"
+                                 size="40"
+                                 maxlength="20"
+                                 label="No Cedula"
+                                 value="#{administracionClienteBean.cliente.cedula}"
+                                 required="true"
+                                 >
+                        <f:validateLength minimum="1"/>
+                    </p:inputText>
+                    <h:message id="nameMsg" for="TxtCedula" />
+                </h:panelGrid>
+
+                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                    <p:outputLabel for="TxtNombre"
+                                   value="Nombre" />
+                    <p:inputText id="TxtNombre"
+                                 maxlength="20"
+                                 size="40"
+                                 value="#{administracionClienteBean.cliente.nombre}"
+                                 label="Nombre"
+                                 required="true">
+                        <f:validateLength minimum="1"/>
+                    </p:inputText>
+                    <h:message id="pwMsg" for="TxtNombre" />
+                </h:panelGrid>
+
+                <h:panelGrid width="100px" columns="1" columnClasses="pnlGrdClass, pnlGrdClass, pnlGrdClassLong">
+                    <p:outputLabel for="TxtContrasena"
+                                   value="Contraseña" />
+                    <p:password id="TxtContrasena"
+                                maxlength="20"
+                                size="40"
+                                value="#{administracionClienteBean.cliente.contraseña}"
+                                label="Nombre"
+                                required="true">
+                        <f:validateLength minimum="1"/>
+                    </p:password>
+                    <h:message id="passMsg" for="TxtContrasena" />
+                </h:panelGrid>
+                <br/>
+                <br/>
+                <h:commandButton value="Agregar" action="#{administracionClienteBean.agregarCliente}" actionListener="#{administracionClienteBean.agregarUsuarioAppication}"/>
+                <h:commandButton value="Limpiar" action="#{administracionClienteBean.limpiar}" />
+            </h:panelGroup>
+        </h:form>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h:form id="forma">
+            <!-- Se crea una tabla donde se presentan los clientes del sistema -->
+            <h:outputLabel style="font-weight: bold; font-size: 14px"    value="LISTADO DE CLIENTES"/>
+                <br/> <br/> 
+            <p:dataTable
+                binding="#{administracionClienteBean.dataTable}"
+                id="dataUsuarios"
+                value="#{administracionClienteBean.clientes}"
+                var="file"
+                scrollable="false"
+                scrollHeight="100px"
+                paginator="true"
+                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                resizableColumns="true"
+                rows="5">
+
+
+                <p:column headerText="Cedula" sortBy="#{file.cedula}">
+                    <h:outputText value="#{file.cedula}" />
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{file.nombre}" />
+                </p:column>
+
+                <p:column headerText="Acción">
+                    <p:commandButton icon="ui-icon-trash"  update="forma:dataUsuarios" action="#{administracionClienteBean.borrarCliente}" >
+                    </p:commandButton> 
+                    <p:commandButton icon="ui-icon-search"  update="formularioUsuario:panelUsuario" action="#{administracionClienteBean.consultarCliente}" >
+                    </p:commandButton> 
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+
+
+    </ui:define>
+
+
+</ui:composition>

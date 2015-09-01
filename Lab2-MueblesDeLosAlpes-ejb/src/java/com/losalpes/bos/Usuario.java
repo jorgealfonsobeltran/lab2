@@ -11,6 +11,8 @@
 
 package com.losalpes.bos;
 
+import java.util.List;
+
 /**
  * Clase que representa un usuario del sistema
  */
@@ -21,6 +23,10 @@ public class Usuario
     // Atributos
     //-----------------------------------------------------------
 
+    /**
+     * Identificador del usuario
+     */
+    private String cedula;
     /**
      * Nombre del usuario
      */
@@ -35,6 +41,8 @@ public class Usuario
      * Tipo de usuario
      */
     private TipoUsuario tipo;
+    
+    private List <Mueble> compraMuebles;
 
     //-----------------------------------------------------------
     // Constructores
@@ -50,12 +58,14 @@ public class Usuario
 
     /**
      * Constructor de la clase con argumentos
+     * @param cedula Identificador del usuario
      * @param nombre Nombre del usuario
      * @param contraseña Constraseña del usuario
      * @param tipo Tipo de usuario
      */
-    public Usuario(String nombre, String contraseña, TipoUsuario tipo)
+    public Usuario(String cedula,String nombre, String contraseña, TipoUsuario tipo)
     {
+        this.cedula= cedula;
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.tipo = tipo;
@@ -66,6 +76,22 @@ public class Usuario
     //-----------------------------------------------------------
 
 
+
+    /**
+     * Devuelve el numero de cedula del usuario
+     * @return cedula Numero de cedula del usuario
+     */
+    public String getCedula() {
+        return cedula;
+    }
+/**
+     * Modifica el numero de cedula del usuario
+     * @param cedula Numero de cedula del usuario
+     */
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+    
     /**
      * Devuelve la contraseña del usuario
      * @return contraseña Contraseña del usuario
@@ -119,5 +145,14 @@ public class Usuario
     {
         this.tipo = tipo;
     }
+
+    public List<Mueble> getCompraMuebles() {
+        return compraMuebles;
+    }
+
+    public void setCompraMuebles(List<Mueble> compraMuebles) {
+        this.compraMuebles = compraMuebles;
+    }
+    
 
 }

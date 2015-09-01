@@ -14,6 +14,7 @@ package com.losalpes.servicios;
 
 import com.losalpes.bos.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
+import java.util.ArrayList;
 
 /**
  * Contrato funcional de los servicios que se le prestan al catalogo
@@ -29,5 +30,7 @@ public interface IServicioSeguridad
      * @return usuario Retorna el objeto que contiene la información del usuario que ingreso al sistema.
      */
     public Usuario login(String nombre, String contraseña)throws AutenticacionException;
+    public ArrayList<Usuario> getUsuarios();
+    public void setUsuarios(ArrayList<Usuario> usuarios);
 
 }

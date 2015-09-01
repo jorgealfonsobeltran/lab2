@@ -68,9 +68,9 @@ public class ReporteBean implements Serializable {
 
         usuarios = new ArrayList<>();
         usuario = new Usuario();
-        usuarios.add(new Usuario("Angela Suarez", "122345", TipoUsuario.CLIENTE));
-        usuarios.add(new Usuario("Jorge Beltran", "122345", TipoUsuario.CLIENTE));
-        usuarios.add(new Usuario("Camilo Marroquin", "122345", TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario( "1234",  "Angela Suarez", "122345", TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario("2345","Jorge Beltran", "122345", TipoUsuario.CLIENTE));
+        usuarios.add(new Usuario("4567","Camilo Marroquin", "122345", TipoUsuario.CLIENTE));
 
         fechaFinal = fechaFinal == null ? new Date() : fechaFinal;
 
@@ -260,7 +260,7 @@ public class ReporteBean implements Serializable {
         xAxis.setMin(0);
 
         Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-//        yAxis.setLabel("Tipos");
+//        
     }
 
     public void consultarReporte() {

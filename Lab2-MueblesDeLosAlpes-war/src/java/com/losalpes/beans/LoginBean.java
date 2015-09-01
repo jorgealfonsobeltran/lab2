@@ -17,15 +17,17 @@ import com.losalpes.bos.Usuario;
 import com.losalpes.excepciones.AutenticacionException;
 import com.losalpes.servicios.IServicioSeguridad;
 import com.losalpes.servicios.ServicioSeguridadMock;
+import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 /**
  * Managed bean encargado de la autenticación en el sistema
  * 
  */
-@ManagedBean
+@ManagedBean(name = "loginBean")
 public class LoginBean
 {
 
@@ -52,6 +54,8 @@ public class LoginBean
      * Determina si existe error o no
      */
     private boolean error;
+    @ManagedProperty(value = "#{applicationBean}")
+    private ApplicationBean applicationBean;
 
     //-----------------------------------------------------------
     // Constructor
@@ -76,17 +80,17 @@ public class LoginBean
      */
     public String login()
     {
-       
+       servicio.setUsuarios((ArrayList<Usuario>) applicationBean.getUsuarios()); 
         try
         {
             Usuario user = servicio.login(usuario, contraseña);
             if (user.getTipo() == TipoUsuario.ADMINISTRADOR)
             {
-                return "catalogo.xhtml";
+                return "administracionCliente.xhtml";
             }
             else
             {
-                return "";
+                return "catalogoCliente";
             }
         }
         catch (AutenticacionException ex)
@@ -163,4 +167,13 @@ public class LoginBean
     {
         error=false;
     }
+
+    public ApplicationBean getApplicationBean() {
+        return applicationBean;
+    }
+
+    public void setApplicationBean(ApplicationBean applicationBean) {
+        this.applicationBean = applicationBean;
+    }
+    
 }

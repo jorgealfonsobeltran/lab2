@@ -18,9 +18,9 @@
 /* Establece los atributos para el tipo de font, tamaño y color de TODOS los elementos de la página */
 body, table
 {
- font-family: Arial, Helvetica, sans-serif;
- font-size: 11px;
- color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000000;
 }
 
 /* Estable el tamaño y otros atributos de los fonts para cualquiera de los 'form elements' no ICE. (nota ésto también afectará todo elemento ICE que sea renderizado por cualquiera de los siguientes tags HTML */
@@ -31,4 +31,12 @@ input, textarea, select
 /* Estilo de errores */
 .error{
     color:red;
+}
+.titulo{
+    font-size: 14px; 
+    color: blueviolet;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: left;
+
 }
