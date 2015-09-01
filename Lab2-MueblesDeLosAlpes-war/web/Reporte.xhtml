@@ -35,12 +35,9 @@
                     </p:tab>
                     <p:tab title="Historico de Compras de Cliente">
                         <h:panelGrid width="800px"  columns="6" >  
-                            
                             <p:selectOneMenu value="#{reporteBean.usuario.nombre}">
                                 <f:selectItems  value="#{reporteBean.items}"/>
                             </p:selectOneMenu>
-                           
-                            
                             <p:outputLabel for="buttonFechaInicialCliente" value="Fecha Inicial:" />
                             <p:calendar id="buttonFechaInicialCliente" value="#{reporteBean.fechaInicialCliente}" showOn="button" />
                             <p:outputLabel for="buttonFechaFinalCliente" value="Fecha Final:" />

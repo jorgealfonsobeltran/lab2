@@ -241,26 +241,26 @@ public class ReporteBean implements Serializable {
 
     private void createHorizontalVentasModel() {
         horizontalBarModel = new HorizontalBarChartModel();
-
-        ChartSeries muebles = new ChartSeries();
         
-        muebles.setLabel("Unidades Vendidas");
         
         for (ReporteMueble item : reporte.getInformeMuebles()) {
-            muebles.set(item.getNombre() , item.getCantidad());
+            ChartSeries muebles = new ChartSeries();
+            muebles.setLabel(item.getNombre());
+            muebles.set("Tipos" , item.getCantidad());
+            horizontalBarModel.addSeries(muebles);
         }
-
-        horizontalBarModel.addSeries(muebles);
 
         horizontalBarModel.setTitle("Ventas por Mueble");
         horizontalBarModel.setLegendPosition("e");
-
+        horizontalBarModel.setZoom(true);
+        horizontalBarModel.setAnimate(true);
+        
         Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
         xAxis.setLabel("Ventas");
         xAxis.setMin(0);
 
         Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Tipos");
+//        yAxis.setLabel("Tipos");
     }
 
     public void consultarReporte() {
